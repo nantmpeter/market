@@ -1,0 +1,1 @@
+{"0":"id","1":"title","2":"url","3":"utime","4":"ctime","5":"source","6":"type","7":"content","_autoinc":true,"_pk":"id","_type":{"id":"int(11)","title":"varchar(255)","url":"varchar(255)","utime":"datetime","ctime":"varchar(100)","source":"varchar(50)","type":"int(11)","content":"text"}}
