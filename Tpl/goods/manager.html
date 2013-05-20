@@ -1,0 +1,76 @@
+<html>
+<head>
+	<title>管理</title>
+	    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<style type="text/css">
+	.img img{width:200px;}
+	</style>
+</head>
+<body>
+	<h1>商品管理</h1>
+	<div>分类：
+		<select id="classId">
+			<foreach name="classes" item="vo">
+			    <option value="{$vo.class}">{$vo.name}</option>
+			 </foreach>
+		</select>
+		<button class='btn insert'>入库</button>
+		<span><a href="?type=m">管理</a></span>
+		<span class='addClass'>添加</span>
+		<form class='addText hide'>
+			<input type='type' name='ClassText'>
+			<button type='submit' class='btn'>添加分类</button>
+			<span class='cancelClass btn'>取消</span>
+		</form>
+	</div>
+	<button class='selectAll btn'>全选</button>&nbsp;
+	<button class='selectNo btn'>全不选</button><br>
+	
+	<form>
+		<input name='keyword' type='text' value="{$keyword}">
+		<button class='btn' type='submit'>查找</button>
+	</form>
+	<div>
+		<form id="goodsList">
+			<div class='row-fluid'>
+				<foreach name="goods" item="vo">
+					<div class='span3'>
+						<div class='img'><img src="{$vo.pic_url}"></div>
+						<div><input class="goodsId" type="checkbox" checked='true' name="goodId[]" value="{$vo.num_iid}">{$vo.title}</div>
+						<div>{$vo.price}</div>
+					</div>
+				</foreach>
+			</div>
+		</form>
+	</div>
+<div><if condition="$page gt 1"><a href="?keyword={$keyword}&page={$page-1}">上一页</a></if><a href="?keyword={$keyword}&page={$page+1}">下一页</a><form>第<input style='width=25px' name='page' type='text'>页<input name='keyword' class='hide' value={$keyword}><button class='btn' type='submit'>go</button></form></div>
+</body>
+</html>
+<script type="text/javascript" src='/js/bootstrap.min.js'></script>
+<script type="text/javascript" src='/js/jquery-1.7.1.min.js'></script>
+<script type="text/javascript">
+$(function(){
+	$(".addClass").click(function(){
+		$(".addText").show();
+	})
+
+	$(".cancelClass").click(function(){
+		$(".addText").hide();
+	})
+
+	$(".insert").click(function(){
+		$.post("/Goods/insert",$("#goodsList").serialize()+"&class="+$("#classId").val(),function(msg){
+			var data = eval("("+msg+")");
+			if (data.state == 1) {alert(data.msg)};
+		})
+	})
+
+	$(".selectAll").click(function(){
+		$(".goodsId").attr("checked",true);
+	})
+
+	$(".selectNo").click(function(){
+		$(".goodsId").attr("checked",false);
+	})
+})
+</script>
